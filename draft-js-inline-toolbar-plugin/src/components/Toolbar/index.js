@@ -23,6 +23,7 @@ export default class Toolbar extends React.Component {
   state = {
     isVisible: false,
     position: undefined,
+    
     /**
      * If this is set, the toolbar will render this instead of the regular
      * structure and will also be shown when the editor loses focus.
@@ -111,7 +112,6 @@ export default class Toolbar extends React.Component {
   };
 
   render() {
-    
     const { theme, store, structure } = this.props;
     const { overrideContent: OverrideContent } = this.state;
     const childrenProps = {
