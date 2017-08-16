@@ -59,25 +59,22 @@ export default class Toolbar extends React.Component {
 
       let shift = 0;
       // value 36 is taken from buttonStyles.css
-      // there should be a more dynamic way to parse css-loader value instead of just hardcoding '36'
-      const toolbarWidth = this.props.structure.length * 36;
+      // there should be a more dynamic way to parse css-loader value instead of just hardcoding '38'
+      const toolbarWidth = this.props.structure.length * (38);
+      this.toolbar.style['width'] = `${toolbarWidth}px`;
 
       if (selectionRect) {
-        let rightToolbarPos = selectionRect.right + toolbarWidth / 2;
-        let leftToolbarPos = selectionRect.left - toolbarWidth / 2;
-      
+        let rightToolbarPos = (selectionRect.right - selectionRect.width / 2) + toolbarWidth / 2;
+        let leftToolbarPos = rightToolbarPos - toolbarWidth;
+        
         if (rightToolbarPos > relativeRect.right) {
-          console.log('spilling over to the right')
           shift = relativeRect.right - rightToolbarPos
         }
 
         if (leftToolbarPos < relativeRect.left) {
-          // also  need to make sure selection isnt on the way right
-          console.log('spillin over to the left')
           shift = relativeRect.left - leftToolbarPos;
         }
       }
-
 
       
       if (!selectionRect) return;
