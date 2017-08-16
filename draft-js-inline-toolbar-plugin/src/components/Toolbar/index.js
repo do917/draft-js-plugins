@@ -23,7 +23,7 @@ export default class Toolbar extends React.Component {
   state = {
     isVisible: false,
     position: undefined,
-    
+
     /**
      * If this is set, the toolbar will render this instead of the regular
      * structure and will also be shown when the editor loses focus.
@@ -59,7 +59,7 @@ export default class Toolbar extends React.Component {
       const selectionRect = getVisibleSelectionRect(window);
 
       let shift = 0;
-      // value 36 is taken from buttonStyles.css
+      // value 38 is taken from buttonStyles.css
       // there should be a more dynamic way to parse css-loader value instead of just hardcoding '38'
       const toolbarWidth = this.props.structure.length * (38);
       this.toolbar.style['width'] = `${toolbarWidth}px`;
