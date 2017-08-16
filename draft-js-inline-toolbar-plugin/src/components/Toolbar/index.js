@@ -23,7 +23,6 @@ export default class Toolbar extends React.Component {
   state = {
     isVisible: false,
     position: undefined,
-
     /**
      * If this is set, the toolbar will render this instead of the regular
      * structure and will also be shown when the editor loses focus.
@@ -58,11 +57,34 @@ export default class Toolbar extends React.Component {
       const relativeRect = (relativeParent || document.body).getBoundingClientRect();
       const selectionRect = getVisibleSelectionRect(window);
 
+      let shift = 0;
+      // value 36 is taken from buttonStyles.css
+      // there should be a more dynamic way to parse css-loader value instead of just hardcoding '36'
+      const toolbarWidth = this.props.structure.length * 36;
+
+      if (selectionRect) {
+        let rightToolbarPos = selectionRect.right + toolbarWidth / 2;
+        let leftToolbarPos = selectionRect.left - toolbarWidth / 2;
+      
+        if (rightToolbarPos > relativeRect.right) {
+          console.log('spilling over to the right')
+          shift = relativeRect.right - rightToolbarPos
+        }
+
+        if (leftToolbarPos < relativeRect.left) {
+          // also  need to make sure selection isnt on the way right
+          console.log('spillin over to the left')
+          shift = relativeRect.left - leftToolbarPos;
+        }
+      }
+
+
+      
       if (!selectionRect) return;
 
       const position = {
         top: (selectionRect.top - relativeRect.top) - toolbarHeight,
-        left: (selectionRect.left - relativeRect.left) + (selectionRect.width / 2),
+        left: (selectionRect.left - relativeRect.left) + (selectionRect.width / 2) + shift,
       };
       this.setState({ position });
     });
@@ -92,6 +114,7 @@ export default class Toolbar extends React.Component {
   };
 
   render() {
+    
     const { theme, store, structure } = this.props;
     const { overrideContent: OverrideContent } = this.state;
     const childrenProps = {
